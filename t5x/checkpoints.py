@@ -31,6 +31,7 @@ import asyncio
 import dataclasses
 import functools
 import os
+import pickle
 import re
 import subprocess
 import time
@@ -1105,6 +1106,10 @@ class Checkpointer(object):
     for key in state_utils.flatten_state_dict(state_dict).keys():
       if key not in restore_parameter_infos_flat:
         logging.info('Not restoring key from ckpt: %s', key)
+
+    # Let's dump the ckpt as pickle.
+    print('ckpt_state_dict', state_utils.flatten_state_dict(state_dict).keys())
+    pickle.dump(state_dict, open('../mt3_flax_state_dict.pk', 'wb'))
 
     if self._dataset_iterator:
       logging.info("Restoring dataset iterator from '%s'.",
