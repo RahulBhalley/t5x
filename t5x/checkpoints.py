@@ -1819,6 +1819,10 @@ def load_t5x_checkpoint(
       for k, v in ckpt_optimizer_state_with_specs.items()
   }
 
+  # Let's dump the ckpt as pickle.
+  print('ckpt_state_dict', state_utils.flatten_state_dict(state_dict).keys())
+  pickle.dump(state_dict, open('../mt3_flax_state_dict.pk', 'wb'))
+
   # Create fake parameter info that results in reading the whole variable.
   param_infos = {
       k: fake_param_info(v) for k, v in ckpt_optimizer_state_with_specs.items()
